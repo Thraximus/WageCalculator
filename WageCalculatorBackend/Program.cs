@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using WageCalculatorBackend.AppRepositories;
@@ -6,14 +7,26 @@ using WageCalculatorBackend.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-Env.Load();
 builder.Services.AddControllers();
+// DB CONNECTING
+Env.Load();
 var connectionString = Environment.GetEnvironmentVariable("JAWSDB_URL");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 35))));
 
-builder.Services.AddScoped<ICalculationRepository, CalculationRepository>();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Rate limmiting
+builder.Services.AddMemoryCache();
+builder.Services.AddInMemoryRateLimiting();
+builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+
+
+
+builder.Services.AddScoped<ITimeRuleRepository, CalculationRepository>();
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -26,9 +39,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseIpRateLimiting();
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+// app.UseAuthorization();
 
 app.MapControllers();
 
