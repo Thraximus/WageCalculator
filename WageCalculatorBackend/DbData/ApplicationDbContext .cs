@@ -10,13 +10,13 @@ namespace WageCalculatorBackend.DbData
         {
         }
 
-        public DbSet<Calculation> Calculations { get; set; }
+        public DbSet<TimeRule> Calculations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Calculation>(entity =>
+            modelBuilder.Entity<TimeRule>(entity =>
             {
-                entity.ToTable("Calculations");
+                entity.ToTable("TimeRules");
                 entity.HasKey(c => c.Id);
 
                 entity.Property(c => c.Name)
@@ -27,13 +27,13 @@ namespace WageCalculatorBackend.DbData
                     .HasColumnType("varchar(50)");
 
                 entity.Property(c => c.RegularStartTime)
-                    .HasColumnType("time");
+                    .HasColumnType("tinyint");
 
                 entity.Property(c => c.NightTimeStartTime)
-                    .HasColumnType("time");
+                    .HasColumnType("tinyint");
 
                 entity.Property(c => c.MidnightStartTime)
-                    .HasColumnType("time");
+                    .HasColumnType("tinyint");
             });
         }
     }
