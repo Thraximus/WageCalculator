@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WageCalculatorBackend.Models
 {
     public class TimeRule
     {
-        [Required(ErrorMessage = "Id is required.")]
-        [Range(0, int.MaxValue, ErrorMessage = "Id must be a non-negative integer.")]
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
@@ -27,4 +28,6 @@ namespace WageCalculatorBackend.Models
         [Range(0, 23, ErrorMessage = "Midnight start time must be between 0 and 23.")]
         public int MidnightStartTime { get; set; }
     }
+
+
 }

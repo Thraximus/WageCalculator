@@ -24,7 +24,7 @@ builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection(
 
 
 
-builder.Services.AddScoped<ITimeRuleRepository, CalculationRepository>();
+builder.Services.AddScoped<ITimeRuleRepository, TimeRuleRepository>();
 
 
 builder.Services.AddEndpointsApiExplorer();

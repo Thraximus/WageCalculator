@@ -44,4 +44,30 @@ namespace WageCalculatorBackend.Models
         [JsonPropertyName("time-rule")]
         public TimeRule TimeRule { get; set; } = new TimeRule();
     }
+
+    public class CalculateRequestStandard
+    {
+        [Required(ErrorMessage = "RegularRate is required.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Regular rate must be a non-negative integer.")]
+        [JsonPropertyName("regular-rate")]
+        public int RegularRate { get; set; }
+
+        [Required(ErrorMessage = "NightTimeRate is required.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Night time rate must be a non-negative integer.")]
+        [JsonPropertyName("night-time-rate")]
+        public int NightTimeRate { get; set; }
+
+        [Required(ErrorMessage = "MidnightRate is required.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Midnight rate must be a non-negative integer.")]
+        [JsonPropertyName("midnight-rate")]
+        public int MidnightRate { get; set; }
+
+        [Required(ErrorMessage = "NumberOfDays is required.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Number of days must be a positive integer.")]
+        [JsonPropertyName("number-of-days")]
+        public int NumberOfDays { get; set; }
+
+        [Required(ErrorMessage = "Days are required.")]
+        public List<DayRange> Days { get; set; } = new List<DayRange>();
+    }
 }
