@@ -9,7 +9,11 @@ namespace WageCalculatorBackend.Controllers
     public class CalculationController: ControllerBase
     {
 
-        public CalculationController() { }
+        private readonly ITimeRuleRepository _timeRuleRepository;
+        public CalculationController(ITimeRuleRepository repository) 
+        {
+            _timeRuleRepository = repository;
+        }
 
         private Dictionary<string, int> CalculateHoursInBlocks(int workStart, int workEnd, int regularTimeStartTime, int nightTimeStartTime, int midnightTimeStartTIme)
         {
@@ -20,7 +24,8 @@ namespace WageCalculatorBackend.Controllers
                 { "MidnightRate", 0 }
             };
 
-            if (workEnd < workStart)
+            // this is for handling overflows from one day to another or when a shift is 24h
+            if (workEnd <= workStart)
             {
                 workEnd += 24;
             }
@@ -57,7 +62,7 @@ namespace WageCalculatorBackend.Controllers
         }
 
 
-        [HttpPost("calculate-standard")]
+        [HttpPost("calculate")]
         public ActionResult Calculate([FromBody] CalculateRequest request)
         {
             if (!ModelState.IsValid)
@@ -90,6 +95,48 @@ namespace WageCalculatorBackend.Controllers
 
             }
 
+            var result = new
+            {
+                GrandTotal = totalWage
+            };
+
+            return Ok(result);
+        }
+
+        [HttpPost("calculate-standard")]
+        public async Task<ActionResult> CalculateStandard([FromBody] CalculateRequestStandard request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            int totalWage = 0;
+
+            TimeRule defaultTimeRule = await _timeRuleRepository.GetDefaultTimeRuleAsync();
+
+
+            for (int i = 0; i < request.NumberOfDays; i++)
+            {
+                var hoursInBlocks = CalculateHoursInBlocks(request.Days[i].Start, request.Days[i].End, defaultTimeRule.RegularStartTime, defaultTimeRule.NightTimeStartTime, defaultTimeRule.MidnightStartTime);
+                foreach (var block in hoursInBlocks)
+                {
+                    if (block.Key.Equals("RegularRate"))
+                    {
+                        totalWage += block.Value * request.RegularRate;
+                    }
+                    else if (block.Key.Equals("NightTimeRate"))
+                    {
+                        totalWage += block.Value * request.NightTimeRate;
+                    }
+                    else if (block.Key.Equals("MidnightRate"))
+                    {
+                        totalWage += block.Value * request.MidnightRate;
+                    }
+                }
+
+
+            }
 
             var result = new
             {
