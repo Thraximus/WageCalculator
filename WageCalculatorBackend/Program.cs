@@ -54,7 +54,11 @@ if (app.Environment.IsDevelopment())
 app.UseIpRateLimiting();
 app.UseHttpsRedirection();
 
-// app.UseAuthorization();
+// Enable serving static files from wwwroot
+app.UseStaticFiles();
+
+// Add this fallback to serve index.html for all unmatched routes
+app.MapFallbackToFile("index.html");
 
 app.MapControllers();
 
