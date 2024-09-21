@@ -7,11 +7,11 @@ namespace WageCalculatorBackend.Models
     public class DayRange
     {
         [Required(ErrorMessage = "Start is required.")]
-        [Range(0, 23, ErrorMessage = "Start must be between 0 and 23.")]
+        [Range(0, 24, ErrorMessage = "Start must be between 0 and 24.")]
         public int Start { get; set; }
 
         [Required(ErrorMessage = "End is required.")]
-        [Range(0, 23, ErrorMessage = "End must be between 0 and 23.")]
+        [Range(0, 24, ErrorMessage = "End must be between 0 and 24.")]
         public int End { get; set; }
     }
 

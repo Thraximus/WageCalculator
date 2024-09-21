@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace WageCalculatorBackend.Models
 {
@@ -17,17 +18,15 @@ namespace WageCalculatorBackend.Models
         public string Description { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "RegularStartTime is required.")]
-        [Range(0, 23, ErrorMessage = "Regular start time must be between 0 and 23.")]
+        [Range(0, 24, ErrorMessage = "Regular start time must be between 0 and 24.")]
         public int RegularStartTime { get; set; }
 
         [Required(ErrorMessage = "NightTimeStartTime is required.")]
-        [Range(0, 23, ErrorMessage = "Night time start time must be between 0 and 23.")]
+        [Range(0, 24, ErrorMessage = "Night time start time must be between 0 and 24.")]
         public int NightTimeStartTime { get; set; }
 
         [Required(ErrorMessage = "MidnightStartTime is required.")]
-        [Range(0, 23, ErrorMessage = "Midnight start time must be between 0 and 23.")]
+        [Range(0, 24, ErrorMessage = "Midnight start time must be between 0 and 24.")]
         public int MidnightStartTime { get; set; }
     }
-
-
 }
