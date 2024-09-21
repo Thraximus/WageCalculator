@@ -16,12 +16,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="8.0.2" />
   </ItemGroup>
 
-	<Target Name="BuildFrontend" AfterTargets="Build">
-		<Exec Command="cd ../WageCalculatorFrontend &amp;&amp; npm install &amp;&amp; npm run build"
-			  WorkingDirectory="..\\WageCalculatorFrontend" />
-	</Target>
-
-
-
-
 </Project>
