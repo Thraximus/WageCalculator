@@ -1,0 +1,9 @@
+{
+    "name": "wage-calculator",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+      "heroku-postbuild": "cd WageCalculatorFrontend && npm install && npm run build"
+    }
+  }
+  
