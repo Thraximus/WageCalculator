@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Filters;
 using WageCalculatorBackend.AppRepositories;
 using WageCalculatorBackend.Models;
 using WageCalculatorBackend.Repositories;
+using WageCalculatorBackend.SwaggerExamples;
 
 namespace WageCalculatorBackend.Controllers
 {
@@ -54,6 +56,7 @@ namespace WageCalculatorBackend.Controllers
         }
 
         [HttpPost("create-rule")]
+        [SwaggerRequestExample(typeof(TimeRule), typeof(TimeRuleCreateExample))]
         public async Task<ActionResult<TimeRule>> AddTimeRule([FromBody] TimeRule requestTimeRule)
         {
 
@@ -64,7 +67,29 @@ namespace WageCalculatorBackend.Controllers
 
             if (requestTimeRule.Id != 0)
             {
-                return BadRequest("The Id is auto incremented, and is not a needed parameter");
+                var response = new
+                {
+                    message = "The Id is auto incremented, and is not a needed parameter"
+                };
+                return BadRequest(response);
+            }
+
+            if (requestTimeRule.RegularStartTime == requestTimeRule.NightTimeStartTime || requestTimeRule.NightTimeStartTime == requestTimeRule.MidnightStartTime || requestTimeRule.MidnightStartTime == requestTimeRule.RegularStartTime)
+            {
+                var response = new
+                {
+                    message = "Start times cannot overlap"
+                };
+                return BadRequest(response);
+            }
+
+            if (requestTimeRule.RegularStartTime > requestTimeRule.NightTimeStartTime || requestTimeRule.NightTimeStartTime > requestTimeRule.MidnightStartTime || requestTimeRule.RegularStartTime > requestTimeRule.MidnightStartTime)
+            {
+                var response = new
+                {
+                    message = "Start times are in the incorrect order"
+                };
+                return BadRequest(response);
             }
 
 
@@ -100,6 +125,7 @@ namespace WageCalculatorBackend.Controllers
         }
 
         [HttpPatch("patch-rule")]
+        [SwaggerRequestExample(typeof(TimeRule), typeof(TimeRulePatchExample))]
         public async Task<ActionResult> UpdateTimeRuleById([FromBody] TimeRule requestTimeRule)
         {
             if (!ModelState.IsValid)

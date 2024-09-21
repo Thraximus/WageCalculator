@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using Swashbuckle.AspNetCore.Filters;
 using WageCalculatorBackend.Models;
 using WageCalculatorBackend.Repositories;
+using WageCalculatorBackend.SwaggerExamples;
 
 namespace WageCalculatorBackend.Controllers
 {
@@ -24,24 +27,17 @@ namespace WageCalculatorBackend.Controllers
                 { "MidnightRate", 0 }
             };
 
-            // this is for handling overflows from one day to another or when a shift is 24h
-            if (workEnd <= workStart)
-            {
-                workEnd += 24;
-            }
-
             for (int hour = workStart; hour < workEnd; hour++)
             {
-                int normalizedHour = hour % 24;
-                if (IsHourBetween(normalizedHour, regularTimeStartTime, nightTimeStartTime))
+                if (IsHourBetween(hour, regularTimeStartTime, nightTimeStartTime))
                 {
                     hoursInBlocks["RegularRate"]++;
                 }
-                else if (IsHourBetween(normalizedHour, nightTimeStartTime, midnightTimeStartTIme))
+                else if (IsHourBetween(hour, nightTimeStartTime, midnightTimeStartTIme))
                 {
                     hoursInBlocks["NightTimeRate"]++;
                 }
-                else if (IsHourBetween(normalizedHour, midnightTimeStartTIme, regularTimeStartTime))
+                else if (IsHourBetween(hour, midnightTimeStartTIme, regularTimeStartTime))
                 {
                     hoursInBlocks["MidnightRate"]++;
                 }
@@ -62,39 +58,58 @@ namespace WageCalculatorBackend.Controllers
         }
 
 
-        [HttpPost("calculate")]
+        [HttpPost("calculate-custom")]
+        [SwaggerRequestExample(typeof(CalculateRequest),typeof(CalculateExamples))]
         public ActionResult Calculate([FromBody] CalculateRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            foreach (var day in request.Days.Select((value,i) => (value, i)))
+            {
+                if (day.value.Start >= day.value.End)
+                {
+                    var message = new
+                    {
+                        message = "Shift start time of day" + day.i+1 +" cannot be greater or equal to shift end time"
+                    };
+                    return BadRequest(message);
+                }
+            }
+
+            if (request.TimeRule.RegularStartTime >= request.TimeRule.NightTimeStartTime || 
+                    request.TimeRule.NightTimeStartTime >= request.TimeRule.MidnightStartTime || 
+                        request.TimeRule.RegularStartTime >= request.TimeRule.MidnightStartTime){
+                var response = new
+                {
+                    message = "Time Rule invalid"
+                };
+                return BadRequest(response);
+            }
 
             int totalWage = 0;
 
-
-            
-            for (int i = 0; i < request.NumberOfDays;i++)
+            for (int i = 0; i < request.NumberOfDays; i++)
             {
                 var hoursInBlocks = CalculateHoursInBlocks(request.Days[i].Start, request.Days[i].End, request.TimeRule.RegularStartTime, request.TimeRule.NightTimeStartTime, request.TimeRule.MidnightStartTime);
                 foreach (var block in hoursInBlocks)
                 {
                     if (block.Key.Equals("RegularRate"))
                     {
-                        totalWage += block.Value* request.RegularRate;
+                        totalWage += block.Value * request.RegularRate;
                     }
                     else if (block.Key.Equals("NightTimeRate"))
                     {
                         totalWage += block.Value * request.NightTimeRate;
-                    } else if (block.Key.Equals("MidnightRate"))
+                    }
+                    else if (block.Key.Equals("MidnightRate"))
                     {
                         totalWage += block.Value * request.MidnightRate;
                     }
                 }
-
-
             }
-
+               
             var result = new
             {
                 GrandTotal = totalWage
@@ -104,6 +119,7 @@ namespace WageCalculatorBackend.Controllers
         }
 
         [HttpPost("calculate-standard")]
+        [SwaggerRequestExample(typeof(CalculateRequestStandard), typeof(CalculateStandardExample))]
         public async Task<ActionResult> CalculateStandard([FromBody] CalculateRequestStandard request)
         {
             if (!ModelState.IsValid)
@@ -111,10 +127,21 @@ namespace WageCalculatorBackend.Controllers
                 return BadRequest(ModelState);
             }
 
+            foreach (var day in request.Days.Select((value, i) => (value, i)))
+            {
+                if (day.value.Start > day.value.End)
+                {
+                    var message = new
+                    {
+                        message = "Shift start time of day" + day.i + 1 + " cannot be greater than shift end time"
+                    };
+                    return BadRequest(message);
+                }
+            }
+
             int totalWage = 0;
 
             TimeRule defaultTimeRule = await _timeRuleRepository.GetDefaultTimeRuleAsync();
-
 
             for (int i = 0; i < request.NumberOfDays; i++)
             {
@@ -134,8 +161,6 @@ namespace WageCalculatorBackend.Controllers
                         totalWage += block.Value * request.MidnightRate;
                     }
                 }
-
-
             }
 
             var result = new
