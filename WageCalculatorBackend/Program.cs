@@ -57,7 +57,6 @@ app.UseHttpsRedirection();
 // Enable serving static files from wwwroot
 app.UseStaticFiles();
 
-// Add this fallback to serve index.html for all unmatched routes
 app.MapFallbackToFile("index.html");
 
 app.MapControllers();
