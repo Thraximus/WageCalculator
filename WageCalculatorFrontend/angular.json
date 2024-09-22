@@ -37,7 +37,14 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "externalDependencies":["@angular/material/prebuilt-themes/deeppurple-amber.css"]
+            "externalDependencies":[
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "@angular/material/dialog",
+              "@angular/material/icon",
+              "@angular/material/form-field",
+              "@angular/material/input",
+              "@angular/material/button"
+            ]
           },
           "configurations": {
             "production": {
