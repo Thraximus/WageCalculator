@@ -36,15 +36,7 @@
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "src/styles.scss"
             ],
-            "scripts": [],
-            "externalDependencies":[
-              "@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "@angular/material/dialog",
-              "@angular/material/icon",
-              "@angular/material/form-field",
-              "@angular/material/input",
-              "@angular/material/button"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -60,15 +52,7 @@
                   "maximumError": "6kb"
                 }
               ],
-              "outputHashing": "all",
-              "externalDependencies":[
-              "@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "@angular/material/dialog",
-              "@angular/material/icon",
-              "@angular/material/form-field",
-              "@angular/material/input",
-              "@angular/material/button"
-            ]
+              "outputHashing": "all"
             },
             "development": {
               "optimization": false,
