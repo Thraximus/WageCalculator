@@ -1,4 +1,5 @@
 @import './styles/variables';
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 body {
   font-family: 'Roboto', sans-serif;
   background-color: $background-color; 
