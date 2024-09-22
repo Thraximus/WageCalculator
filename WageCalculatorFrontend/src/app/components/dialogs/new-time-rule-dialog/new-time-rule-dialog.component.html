@@ -1,0 +1,41 @@
+<div class="dialog-container">
+    <h2 mat-dialog-title>New Time Rule</h2>
+    <mat-dialog-content>
+      <p>Enter your new time rule details:</p>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Rule Name</mat-label>
+        <input matInput [(ngModel)]="timeRule.name" placeholder="Enter rule name" required>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea matInput [(ngModel)]="timeRule.description" placeholder="Enter description"></textarea>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Regular Start Time</mat-label>
+        <input matInput type="number" [(ngModel)]="timeRule.regularStartTime" placeholder="Enter regular start time" required min="0" max="24">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Night Time Start Time</mat-label>
+        <input matInput type="number" [(ngModel)]="timeRule.nightTimeStartTime" placeholder="Enter night time start time" required min="0" max="24">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Midnight Start Time</mat-label>
+        <input matInput type="number" [(ngModel)]="timeRule.midnightStartTime" placeholder="Enter midnight start time" required min="0" max="24">
+      </mat-form-field>
+  
+      @if(!validateTimes()) {
+        <p class="error">{{timeValidationError}}</p>
+      }
+    </mat-dialog-content>
+  
+    <mat-dialog-actions>
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-button [disabled]="!validateTimes()" (click)="onSave()">Save</button>
+    </mat-dialog-actions>
+  </div>
+  

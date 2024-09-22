@@ -1,0 +1,65 @@
+<div class="dropdown-container">
+  <label class="time-rule-select">Select a Time Rule:</label>
+  <div class="custom-dropdown">
+    <button class="dropdown-button" (click)="toggleDropdown()">{{ selectedTimeRule.name }}</button>
+    @if (isDropdownOpen)
+    {
+      <div class="dropdown-options" >
+        <div class="dropdown-header">
+          <div class="header-field">Name</div>
+          <div class="header-field">Regular start time</div>
+          <div class="header-field">Night start time</div>
+          <div class="header-field">Midnight start time</div>
+        </div>
+        <div *ngFor="let rule of timeRules" 
+            class="dropdown-option" 
+            (click)="selectTimeRule(rule)">
+          <div class="option-field">{{ rule.name }}</div>
+          <div class="option-field">{{ rule.regularStartTime }}:00</div>
+          <div class="option-field">{{ rule.nightTimeStartTime }}:00</div>
+          <div class="option-field">{{ rule.midnightStartTime }}:00</div>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (selectedTimeRule && selectedTimeRule.description) {
+    <div class="rule-description-wrapper">
+      <div class="rule-description">
+        <p class="description-text">{{ selectedTimeRule.description }}</p>
+      </div>
+    </div>
+  }
+
+  @if (selectedTimeRule)
+  {
+    <div  class="time-fields">
+      <label>Regular Start Time - Night Start Time:</label>
+      <div class="time-row">
+        <input type="text" readonly value="{{ selectedTimeRule.regularStartTime + ':00'}}" />
+        <div class="seperator">-</div>
+        <input type="text" readonly value="{{ selectedTimeRule.nightTimeStartTime + ':00'}}" />
+      </div>
+      <label>Night Start Time - Midnight Start Time:</label>
+      <div class="time-row">
+        <input type="text" readonly value="{{ selectedTimeRule.nightTimeStartTime + ':00'}}" />
+        <div class="seperator">-</div>
+        <input type="text" readonly value="{{ selectedTimeRule.midnightStartTime + ':00'}}" />
+      </div>
+      <label>Midnight Start Time - Regular Start Time:</label>
+      <div class="time-row">
+        <input type="text" readonly value="{{ selectedTimeRule.midnightStartTime + ':00'}}" />
+        <div class="seperator">-</div>
+        <input type="text" readonly value="{{ selectedTimeRule.regularStartTime + ':00'}}" />
+      </div>
+    </div>
+  }
+
+  <div class="button-container">
+    <a class="button">
+      <mat-icon (click)="openDialog()" class="icon col-xs-12">add_box</mat-icon>
+      <span class="add-text">Add new time rule</span>
+    </a>
+  </div>
+  
+</div>
