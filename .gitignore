@@ -400,3 +400,4 @@ FodyWeavers.xsd
 
 #wwwroot angular build folder
 **/wwwroot/
+/WageCalculatorBackend/wwwroot
