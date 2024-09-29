@@ -3,13 +3,12 @@
 .home-container {
   display: flex;
   justify-content: center;
-  align-items: center; 
-  height: 100vh;
+  align-items: center;
   padding: 20px;
   background-color: $background-color;
 
   .content {
-    background-color: #fff; 
+    background-color: $colour-light; 
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     max-width: 60%; 
@@ -25,6 +24,20 @@
       color: $text-color; 
       margin-bottom: 20px;
       line-height: 1.5; 
+    }
+
+    .widget-wrapper
+    {
+        display: flex;
+        flex-wrap: wrap;
+        text-align: -webkit-center;
+        text-align-last: center;
+    }
+
+    .widget
+    {
+        flex: 1 0 40%;
+        text-align: center;
     }
   }
 }

@@ -1,0 +1,26 @@
+<div class="dialog-container">
+    <h2 mat-dialog-title>New day</h2>
+    <mat-dialog-content>
+      <p>Enter your new day details:</p>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Start Time</mat-label>
+        <input matInput type="number" [(ngModel)]="day.workStartTime" placeholder="Enter regular start time" required min="0" max="24">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>End Time</mat-label>
+        <input matInput type="number" [(ngModel)]="day.workEndTime" placeholder="Enter night time start time" required min="0" max="24">
+      </mat-form-field>
+  
+      @if(!validateTimes()) {
+        <p class="error">{{timeValidationError}}</p>
+      }
+    </mat-dialog-content>
+  
+    <mat-dialog-actions>
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-button [disabled]="!validateTimes()" (click)="onSave()">Save</button>
+    </mat-dialog-actions>
+  </div>
+  

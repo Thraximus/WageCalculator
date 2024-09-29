@@ -1,0 +1,125 @@
+<div class="dropdown-container">
+  <label class="time-rule-select">Select a Price Rule:</label>
+  <div class="custom-dropdown">
+    <button class="dropdown-button" (click)="toggleDropdown()">{{ selectedPriceRule.name }}</button>
+    @if (isDropdownOpen)
+    {
+      <div class="dropdown-options" >
+        <div class="dropdown-header">
+          <div class="header-field">Name</div>
+          <div class="header-field">Regular price</div>
+          <div class="header-field">Night price</div>
+          <div class="header-field">Midnight price</div>
+        </div>
+        <div *ngFor="let rule of priceRules" 
+            class="dropdown-option" 
+            (click)="selectPriceRule(rule)">
+          <div class="option-field">{{ rule.name }}</div>
+          <div class="option-field">{{ rule.regularPrice }}</div>
+          <div class="option-field">{{ rule.nightTimePrice }}</div>
+          <div class="option-field">{{ rule.midnightPrice }}</div>
+        </div>
+        <div class="dropdown-option" 
+         (click)="selectCustom()">
+         <div class="option-field">Custom price rule</div>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (selectedPriceRule && selectedPriceRule.description) {
+    <div class="rule-description-wrapper">
+      <div class="rule-description">
+        <p class="description-text">{{ selectedPriceRule.description }}</p>
+      </div>
+    </div>
+  }
+
+  @if (selectedPriceRule && !isCustom)
+  {
+    <form [formGroup]="priceForm" class="price-fields">
+      <label>Regular price:</label>
+      <div class="price-row">
+        <input readonly type="number" formControlName="regularPrice" />
+        <div class="currency">
+          <img class="icon" src="../../../../assets/images/icons8-japanese-yen-96.png">
+        </div>
+      </div>
+      <label class="title-padding">Night Start price:</label>
+      <div class="price-row">
+        <input readonly type="number" formControlName="nightTimePrice" />
+        <div class="currency">
+          <img class="icon" src="../../../../assets/images/icons8-japanese-yen-96.png">
+        </div>
+      </div>
+      <label class="title-padding">Midnight price:</label>
+      <div class="price-row">
+        <input readonly type="number" formControlName="midnightPrice" />
+        <div class="currency">
+          <img class="icon" src="../../../../assets/images/icons8-japanese-yen-96.png">
+        </div>
+      </div>
+    </form>
+  }
+  @else if (isCustom)
+  {
+    <form [formGroup]="priceForm" class="price-fields">
+      <label>Regular price:</label>
+      <div class="price-row">
+        <input class="custom" type="number" formControlName="regularPrice" min="1" max="5000" />
+        <div class="currency">
+          <img class="icon" src="../../../../assets/images/icons8-japanese-yen-96.png">
+        </div>
+      </div>
+      @if (regularPrice?.invalid && (regularPrice?.touched || regularPrice?.dirty))
+        {
+          @if(regularPrice?.errors?.['required'])
+          {
+            <small class="error">Regular price is required</small>
+          }
+          @else if(regularPrice?.errors?.['min'])
+          {
+            <small class="error">Must be at least 1</small>
+          }
+        }
+
+      <label class="title-padding">Night Start price:</label>
+      <div class="price-row">
+        <input class="custom" type="number" formControlName="nightTimePrice" min="1" max="5000" />
+        <div class="currency">
+          <img class="icon" src="../../../../assets/images/icons8-japanese-yen-96.png">
+        </div>
+      </div>
+      @if (nightTimePrice?.invalid && (nightTimePrice?.touched || nightTimePrice?.dirty))
+        {
+          @if(nightTimePrice?.errors?.['required'])
+          {
+            <small class="error">Night price is required</small>
+          }
+          @else if(nightTimePrice?.errors?.['min'])
+          {
+            <small class="error">Must be at least 1</small>
+          }
+        }
+
+      <label class="title-padding">Midnight price:</label>
+      <div class="price-row">
+        <input class="custom" type="number" formControlName="midnightPrice" min="1" max="5000" />
+        <div class="currency">
+          <img class="icon" src="../../../../assets/images/icons8-japanese-yen-96.png">
+        </div>
+      </div>
+      @if (midnightPrice?.invalid && (midnightPrice?.touched || midnightPrice?.dirty))
+        {
+          @if(midnightPrice?.errors?.['required'])
+          {
+            <small class="error">Midnight price is required</small>
+          }
+          @else if(midnightPrice?.errors?.['min'])
+          {
+            <small class="error">Must be at least 1</small>
+          }
+        }
+    </form>
+  }
+</div>

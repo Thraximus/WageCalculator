@@ -1,9 +1,14 @@
 <div class="home-container">
     <div class="content">     
         <banner-component  [title]="'Welcome to the Wage Calculator'" 
-        [description]="'This application helps you calculate wages based on various time rules and roles.'"></banner-component>
+        [description]="'This application helps you calculate wages based on various time and price rules.'"></banner-component>
 
-        <time-rule-widget></time-rule-widget>
+        <div class="widget-wrapper">
+            <time-rule-widget class="widget"></time-rule-widget>
+            <pricing-rule-widget class="widget"></pricing-rule-widget>
+            <days-widget class="widget"></days-widget>
+            <pricing-rule-widget class="widget"></pricing-rule-widget>
+        </div>
     </div>
   </div>
   
