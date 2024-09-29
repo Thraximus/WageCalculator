@@ -6,6 +6,7 @@
   align-items: center;
   padding: 20px;
   background-color: $background-color;
+  
 
   .content {
     background-color: $colour-light; 
@@ -14,6 +15,7 @@
     max-width: 60%; 
     width: 100%; 
     text-align: center; 
+    min-width: 400px;
 
     h1 {
       color: $primary-color;
