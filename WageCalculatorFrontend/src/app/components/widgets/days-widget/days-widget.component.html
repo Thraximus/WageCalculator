@@ -12,8 +12,8 @@
     {
       <div *ngFor="let day of days ; let i = index" class="day" >
         <div class="day-field">{{ i+1 }}</div>
-        <div class="day-field">{{ day.workStartTime }}</div>
-        <div class="day-field">{{ day.workEndTime }}</div>
+        <div class="day-field">{{ day.start }}</div>
+        <div class="day-field">{{ day.end }}</div>
         <mat-icon class="day-field" (click)="removeDayAtindex(i)">delete</mat-icon>
       </div>
     }

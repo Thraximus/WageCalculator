@@ -4,10 +4,10 @@
         [description]="'This application helps you calculate wages based on various time and price rules.'"></banner-component>
 
         <div class="widget-wrapper">
-            <time-rule-widget class="widget"></time-rule-widget>
-            <pricing-rule-widget class="widget"></pricing-rule-widget>
-            <days-widget class="widget"></days-widget>
-            <pricing-rule-widget class="widget"></pricing-rule-widget>
+            <time-rule-widget (ruleChanged)="onTimeRuleChange($event)" class="widget"></time-rule-widget>
+            <pricing-rule-widget (ruleChangedAndValidity)="onPricingRuleChange($event)" class="widget"></pricing-rule-widget>
+            <days-widget (daysChanged)="onDaysChange($event)" class="widget"></days-widget>
+            <calculate-widget [timeRuleData] ="timeRuleData" [pricingData]="pricingData" [daysData]="daysData" class="widget"></calculate-widget>
         </div>
     </div>
   </div>

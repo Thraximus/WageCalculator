@@ -16,8 +16,8 @@ import { Day } from '../../../models/day.model';
 export class NewDayDialogComponent {
 
   day: Day = {
-    workStartTime: 9,
-    workEndTime: 17,
+    start: 9,
+    end: 17,
   };
 
   isFormValid: boolean = true;
@@ -29,17 +29,17 @@ export class NewDayDialogComponent {
     this.timeValidationError = '';
 
     if (
-      this.day.workStartTime < 0 ||
-      this.day.workStartTime > 24 ||
-      this.day.workEndTime < 0 ||
-      this.day.workEndTime > 24
+      this.day.start < 0 ||
+      this.day.start > 24 ||
+      this.day.end < 0 ||
+      this.day.end > 24
     ) {
       this.timeValidationError = 'Times must be between 0 and 24.';
       return false;
     }
 
     if (
-      this.day.workStartTime >= this.day.workEndTime
+      this.day.start >= this.day.end
     ) {
       this.timeValidationError =
         'Start time cannot be greater than or equal to the end time.';

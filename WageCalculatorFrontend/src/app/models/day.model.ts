@@ -1,4 +1,4 @@
 export interface Day {
-    workStartTime: number,
-    workEndTime: number
+    start: number,
+    end: number
   }

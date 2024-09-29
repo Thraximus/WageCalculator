@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -20,10 +20,12 @@ export class DaysWidgetComponent implements OnInit {
 
   addRuledialog: any;
 
+  @Output() daysChanged = new EventEmitter<Day[]>();
   constructor(private dialog: MatDialog) { }
 
 
   ngOnInit(): void {
+    this.daysChanged.emit(this.days);
   }
 
 
@@ -35,6 +37,7 @@ export class DaysWidgetComponent implements OnInit {
       if (result) {
         this.days.push(result);
         this.dialog.open(SuccessDialogComponent, {data: { successMessage: "Day added successfully!"}});
+        this.daysChanged.emit(this.days);
       }
     });
   }
@@ -42,6 +45,7 @@ export class DaysWidgetComponent implements OnInit {
   removeDayAtindex(index: number)
   {
     this.days.splice(index, 1);
+    this.daysChanged.emit(this.days);
   }
 
 }

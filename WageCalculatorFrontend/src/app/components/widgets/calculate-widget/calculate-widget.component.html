@@ -1,0 +1,47 @@
+<div class="calculate-container">
+
+  <div class="button-container">
+    <a (click)="calculate()" class="button">
+      <mat-icon  class="icon col-xs-12">functions</mat-icon>
+      <span class="add-text">Calculate</span>
+    </a>
+  </div>
+
+
+  @if (calculationDone)
+  {
+    <label>Calculation breakdown:</label>
+
+    <label>Regular hours:</label>
+    <div class="price-row">
+      <input class="custom symbol regular" type="text" readonly value="{{regularHours}}" />
+      <input class="custom symbol regular" type="text" readonly value="x" />
+      <input class="custom regular" type="text" readonly value="{{regularPrice}}" />
+      <input class="custom symbol regular" type="text" readonly value="+" />
+    </div>
+    <label>Night time hours:</label>
+    <div class="price-row ">
+      <input class="custom symbol nightTime" type="text" readonly value="{{nightTimeHours}}" />
+      <input class="custom symbol nightTime" type="text" readonly value="x" />
+      <input class="custom nightTime" type="text" readonly value="{{nightTimePrice}}" />
+      <input class="custom symbol nightTime" type="text" readonly value="+" />
+    </div>
+    <label>Midnight hours:</label>
+    <div class="price-row">
+      <input class="custom symbol midnight" type="text" readonly value="{{midnightHours}}" />
+      <input class="custom symbol midnight" type="text" readonly value="x" />
+      <input class="custom midnight" type="text" readonly value="{{midnightPrice}}" />
+    </div>
+    <label>Total wage:</label>
+    <div class="price-row">
+      <input class="custom symbol result" type="text" readonly value="=" />
+      <input class="custom result" type="text" readonly value="{{totalWage}}" />
+      <div class="currency">
+        <img class="icon" src="../../../../assets/images/icons8-japanese-yen-96.png">
+      </div>
+    </div>
+
+  }
+ 
+  
+</div>
