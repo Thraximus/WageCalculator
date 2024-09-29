@@ -88,6 +88,9 @@ namespace WageCalculatorBackend.Controllers
             }
 
             int totalWage = 0;
+            int regularBlock = 0;
+            int nightTimeBlock = 0;
+            int midnightBlock = 0;
 
             for (int i = 0; i < request.NumberOfDays; i++)
             {
@@ -97,21 +100,27 @@ namespace WageCalculatorBackend.Controllers
                     if (block.Key.Equals("RegularRate"))
                     {
                         totalWage += block.Value * request.RegularRate;
+                        regularBlock += block.Value;
                     }
                     else if (block.Key.Equals("NightTimeRate"))
                     {
                         totalWage += block.Value * request.NightTimeRate;
+                        nightTimeBlock += block.Value;
                     }
                     else if (block.Key.Equals("MidnightRate"))
                     {
                         totalWage += block.Value * request.MidnightRate;
+                        midnightBlock += block.Value;
                     }
                 }
             }
                
             var result = new
             {
-                GrandTotal = totalWage
+                GrandTotal = totalWage,
+                RegularHours = regularBlock,
+                NightHours = nightTimeBlock,
+                MidnightHours = midnightBlock
             };
 
             return Ok(result);
@@ -139,6 +148,9 @@ namespace WageCalculatorBackend.Controllers
             }
 
             int totalWage = 0;
+            int regularBlock = 0;
+            int nightTimeBlock = 0;
+            int midnightBlock = 0;
 
             TimeRule defaultTimeRule = await _timeRuleRepository.GetDefaultTimeRuleAsync();
 
@@ -150,21 +162,27 @@ namespace WageCalculatorBackend.Controllers
                     if (block.Key.Equals("RegularRate"))
                     {
                         totalWage += block.Value * request.RegularRate;
+                        regularBlock += block.Value;
                     }
                     else if (block.Key.Equals("NightTimeRate"))
                     {
                         totalWage += block.Value * request.NightTimeRate;
+                        nightTimeBlock += block.Value;
                     }
                     else if (block.Key.Equals("MidnightRate"))
                     {
                         totalWage += block.Value * request.MidnightRate;
+                        midnightBlock += block.Value;
                     }
                 }
             }
 
             var result = new
             {
-                GrandTotal = totalWage
+                GrandTotal = totalWage,
+                RegularHours = regularBlock,
+                NightHours = nightTimeBlock,
+                MidnightHours = midnightBlock
             };
 
             return Ok(result);

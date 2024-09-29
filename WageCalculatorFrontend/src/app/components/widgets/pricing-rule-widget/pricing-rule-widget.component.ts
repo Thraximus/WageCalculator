@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { NgFor } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -37,6 +37,8 @@ export class PricingRuleWidgetComponent implements OnInit {
   isDropdownOpen = false;
   isCustom = false;
 
+  @Output() ruleChangedAndValidity = new EventEmitter<any>();
+
   constructor() { }
 
   toggleDropdown() {
@@ -44,6 +46,22 @@ export class PricingRuleWidgetComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.ruleChangedAndValidity.emit({rule: this.priceForm.value, valid:true})
+    this.priceForm.statusChanges.subscribe((value) =>
+      {
+        if((this.priceForm.get('regularPrice')?.value == null || (this.priceForm.get('regularPrice')?.value as number)  < 1 || (this.priceForm.get('regularPrice')?.value as number) > 5000) ||
+            (this.priceForm.get('nightTimePrice')?.value == null || (this.priceForm.get('nightTimePrice')?.value as number)  < 1 || (this.priceForm.get('nightTimePrice')?.value as number) > 5000) ||
+            (this.priceForm.get('midnightPrice')?.value == null || (this.priceForm.get('midnightPrice')?.value as number)  < 1 || (this.priceForm.get('midnightPrice')?.value as number) > 5000))
+          {
+            this.ruleChangedAndValidity.emit({rule: this.priceForm.value, valid:false})
+          }
+          else
+          {
+            this.ruleChangedAndValidity.emit({rule: this.priceForm.value, valid:true})
+          } 
+      });
+
+
     this.priceForm.get('regularPrice')?.valueChanges.subscribe((value) => {
       if (value && value <= 0)
       {
@@ -74,7 +92,7 @@ export class PricingRuleWidgetComponent implements OnInit {
       else if (value && value > 5000)
       {
         this.priceForm.get('midnightPrice')?.setValue(5000);
-      }
+      }      
     });
   }
 

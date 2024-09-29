@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -21,6 +21,8 @@ export class TimeRuleWidgetComponent implements OnInit {
   isDropdownOpen = false;
   addRuledialog: any;
 
+  @Output() ruleChanged= new EventEmitter<TimeRule>();
+
   constructor(private http: HttpClient, private dialog: MatDialog) { }
 
   toggleDropdown() {
@@ -34,6 +36,7 @@ export class TimeRuleWidgetComponent implements OnInit {
   selectTimeRule(rule: TimeRule) {
     this.selectedTimeRule = rule;
     this.isDropdownOpen = false;
+    this.ruleChanged.emit(this.selectedTimeRule);
   }
 
   openDialog(): void {
@@ -53,7 +56,6 @@ export class TimeRuleWidgetComponent implements OnInit {
     this.http.get<TimeRule[]>('/api/time-rules')
       .subscribe((data: TimeRule[]) => {
         this.timeRules = data;
-        console.log(data);
         this.selectTimeRule(data[0]);
       }, error => {
         console.error('Failed to load time rules', error);
