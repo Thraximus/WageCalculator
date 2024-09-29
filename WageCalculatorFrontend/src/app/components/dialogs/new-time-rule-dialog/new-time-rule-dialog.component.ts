@@ -83,6 +83,7 @@ export class NewTimeRuleDialogComponent {
         },
         error => {
           console.error('Error creating time rule:', error);
+          this.dialogRef.close(error);
         }
       );
     } else {

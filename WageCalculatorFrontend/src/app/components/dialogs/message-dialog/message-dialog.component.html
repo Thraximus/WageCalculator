@@ -1,7 +1,7 @@
 <div class="dialog-container">
-  <h2 mat-dialog-title>Success</h2>
+  <h2 mat-dialog-title>{{title}}</h2>
   <mat-dialog-content>
-    <p>{{ successMessage }}</p>
+    <p>{{ message }}</p>
   </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-button (click)="onOk()">OK</button>

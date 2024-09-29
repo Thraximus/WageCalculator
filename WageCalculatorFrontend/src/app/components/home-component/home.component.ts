@@ -23,19 +23,16 @@ export class HomeComponent {
 
     onTimeRuleChange(timeRule: TimeRule)
     {
-        //console.log(timeRule);
         this.timeRuleData = timeRule;
     }
 
     onPricingRuleChange(ruleAndValidity: any)
     {
-        //console.log(ruleAndValidity);
         this.pricingData = ruleAndValidity;
     }
 
     onDaysChange(days: Day[])
     {
-        //console.log(days);
         this.daysData = days;
     }
 

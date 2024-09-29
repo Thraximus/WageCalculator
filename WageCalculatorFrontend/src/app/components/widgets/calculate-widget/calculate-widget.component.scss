@@ -7,6 +7,12 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   height: auto;
   min-width: 300px;
+
+  .error
+  {
+    padding: 0 40px;
+    color: red;
+  }
   
   .days-headder
   {

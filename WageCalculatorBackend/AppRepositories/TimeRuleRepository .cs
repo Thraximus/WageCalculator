@@ -77,6 +77,10 @@ namespace WageCalculatorBackend.AppRepositories
             try
             {
                 var calculation = new TimeRule { Id = id }; 
+                if (id==1)
+                {
+                    throw new Exception($"You cannot delete the default rule.");
+                }
 
                 _context.TimeRules.Attach(calculation);  
                 _context.TimeRules.Remove(calculation); 

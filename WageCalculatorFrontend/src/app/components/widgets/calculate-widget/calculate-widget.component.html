@@ -7,7 +7,10 @@
     </a>
   </div>
 
-
+  @if(calcError)
+  {
+    <p class="error">{{calcErrorMessage}}</p>
+  }
   @if (calculationDone)
   {
     <label>Calculation breakdown:</label>
@@ -40,7 +43,6 @@
         <img class="icon" src="../../../../assets/images/icons8-japanese-yen-96.png">
       </div>
     </div>
-
   }
  
   
