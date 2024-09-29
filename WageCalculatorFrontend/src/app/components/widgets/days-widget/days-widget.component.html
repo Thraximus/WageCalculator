@@ -1,0 +1,34 @@
+<div class="dropdown-container">
+  <label class="days-headder">Input days and hours worked</label>
+
+  <div class="days-list">
+    <div class="days-header">
+      <div class="day-field">Day</div>
+      <div class="day-field">Start time</div>
+      <div class="day-field">End time</div>
+      <div class="day-field">Remove day</div>
+    </div>
+    @if(days.length > 0)
+    {
+      <div *ngFor="let day of days ; let i = index" class="day" >
+        <div class="day-field">{{ i+1 }}</div>
+        <div class="day-field">{{ day.workStartTime }}</div>
+        <div class="day-field">{{ day.workEndTime }}</div>
+        <mat-icon class="day-field" (click)="removeDayAtindex(i)">delete</mat-icon>
+      </div>
+    }
+    @else
+    {
+      <div class="day-field">Add a day</div>
+    }
+    
+  </div>
+
+  <div class="button-container">
+    <a (click)="openDialog()" class="button">
+      <mat-icon  class="icon col-xs-12">add_box</mat-icon>
+      <span class="add-text">Add new day</span>
+    </a>
+  </div>
+  
+</div>

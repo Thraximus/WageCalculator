@@ -92,56 +92,23 @@
     }
   }
 
-  .button-container
-  {
-    text-align: -webkit-center;
-    padding-bottom: 20px;
 
-    .button {
-      flex-direction: column;
-      display: flex;
-      align-items: center; 
-      justify-content: center;
-      background-color: $primary-color;
-      color: $colour-light;
-      border: none;
-      border-radius: 10px;
-      padding: 20px;
-      margin: 10px;
-      text-decoration: none;
-      width: 150px;
-      height: 50px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.3s;
-  
-      &:hover {
-        background-color: darken($primary-color, 10%);
-      }
-  
-      .icon {
-        position: absolute;
-      }
-      .add-text
-      {
-        padding-top: 50px;
-        font-size: 16px;
-      }
-    }
-  }  
-
-  .time-fields {
+  .price-fields {
     margin-top: 20px;
+    padding-bottom: 30px;
   
-    .time-row {
+    .price-row {
       display: flex;
-      justify-content: space-between;
+      place-content: center;
       align-items: center;
-      margin: 0% 15% 5% 15%;
+      margin: 0% 15% 0% 15%;
   
       label {
         font-weight: bold;
         margin-right: 10px;
       }
+
+      
   
       input {
         flex: 1;
@@ -150,9 +117,29 @@
         border-radius: 5px;
         background-color: $background-color;
         color: #333;
-        cursor: not-allowed;
         max-width: 150px;
         min-width: 75px;
+      }
+
+      .currency
+      {
+        padding: 3px 18px 17px 4px;
+        border: 1px solid $border-color;
+        border-radius: 5px;
+        background-color: $primary-color;
+        color: #333;
+        height: 15.5px;
+        width: 15.5px;
+
+        .icon
+        {
+          height: 30px;
+        }
+      }
+
+      .custom
+      {
+        cursor:auto !important;
       }
   
       .seperator
@@ -160,6 +147,18 @@
         margin: 5px 5px 5px 5px;
       }
     }
+
+    .title-padding
+    {
+      padding-top: 5%;
+    }
+
+    .error
+    {
+      color: red;
+    }
+
+    
   }
 
   .rule-description-wrapper
