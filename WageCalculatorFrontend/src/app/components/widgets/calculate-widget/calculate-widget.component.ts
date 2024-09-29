@@ -41,9 +41,9 @@ export class CalculateWidgetComponent implements OnInit {
 
 
   ngOnInit(): void {
-
   }
 
+  // Making sure that there are inputed days, and that pricing data is valid
   validateFields()
   {
     if(this.daysData.length > 0 && this.pricingData.valid == true)
@@ -65,6 +65,9 @@ export class CalculateWidgetComponent implements OnInit {
     
   }
 
+  // If all the data is valid, calls the calculation API
+  // Standard call if the default time rule is selected
+  // Custom call if any other rule is selected
   calculate(): void {
     if(this.validateFields())
     {

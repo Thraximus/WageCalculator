@@ -46,6 +46,8 @@ export class PricingRuleWidgetComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    // Propagating price rule values to the home component, for further use in the calculate component
     this.ruleChangedAndValidity.emit({rule: this.priceForm.value, valid:true})
     this.priceForm.statusChanges.subscribe((value) =>
       {
@@ -61,7 +63,7 @@ export class PricingRuleWidgetComponent implements OnInit {
           } 
       });
 
-
+    // clamping of the values for every input field
     this.priceForm.get('regularPrice')?.valueChanges.subscribe((value) => {
       if (value && value <= 0)
       {

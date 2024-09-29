@@ -65,6 +65,7 @@ namespace WageCalculatorBackend.Controllers
             {
                 return BadRequest(ModelState);
             }
+
             foreach (var day in request.Days.Select((value,i) => (value, i)))
             {
                 if (day.value.Start >= day.value.End)

@@ -11,13 +11,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // DB CONNECTING
+// On local environment, the database info is loaded from an .env file
+// On the web env it's read directly from the environments variables
 Env.Load();
 var connectionString = Environment.GetEnvironmentVariable("JAWSDB_URL");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 35))));
 
 
-// Rate limmiting
+// Setting up rate limmiting
+// Specifically limiting the number of calls per api per IP address
 builder.Services.AddMemoryCache();
 builder.Services.AddInMemoryRateLimiting();
 builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();

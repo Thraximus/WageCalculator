@@ -20,7 +20,6 @@ export class NewDayDialogComponent {
     end: 17,
   };
 
-  isFormValid: boolean = true;
   timeValidationError: string = '';
 
   constructor(public dialogRef: MatDialogRef<NewDayDialogComponent>) {}
@@ -56,9 +55,7 @@ export class NewDayDialogComponent {
     if(this.validateTimes())
     {
       this.dialogRef.close(this.day);
-    } else {
-      this.isFormValid = false;
-    }
+    } 
     
   }
 }

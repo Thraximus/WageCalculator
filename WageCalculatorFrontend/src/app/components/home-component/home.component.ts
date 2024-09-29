@@ -15,12 +15,11 @@ import { Day } from '../../models/day.model';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent { 
+    // all needed data from the different components is gathered here, and forwarded to the calculate component
     timeRuleData: any;
     pricingData: any;
     daysData: Day[] = [];
-
-
-
+    
     onTimeRuleChange(timeRule: TimeRule)
     {
         this.timeRuleData = timeRule;

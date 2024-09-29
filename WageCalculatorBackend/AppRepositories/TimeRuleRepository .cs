@@ -77,7 +77,7 @@ namespace WageCalculatorBackend.AppRepositories
             try
             {
                 var calculation = new TimeRule { Id = id }; 
-                if (id==1)
+                if (id==1) //making sure that the default rule cannot be removed, because it's tied to the standard calculate api call
                 {
                     throw new Exception($"You cannot delete the default rule.");
                 }
