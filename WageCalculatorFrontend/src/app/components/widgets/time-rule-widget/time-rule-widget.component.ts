@@ -6,12 +6,12 @@ import { TimeRule } from '../../../models/time-rule.model';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { NewTimeRuleDialogComponent } from '../../dialogs/new-time-rule-dialog/new-time-rule-dialog.component';
-import { NewTimeRuleSuccessDialogComponent } from '../../dialogs/new-time-rule-success-dialog/new-time-rule-dialog.component';
+import { SuccessDialogComponent } from '../../dialogs/success-dialog/success-dialog.component';
 
 @Component({
   selector: 'time-rule-widget',
   standalone: true,
-  imports: [HttpClientModule, FormsModule, NgFor, MatIconModule,NewTimeRuleDialogComponent, NewTimeRuleSuccessDialogComponent],
+  imports: [HttpClientModule, FormsModule, NgFor, MatIconModule,NewTimeRuleDialogComponent, SuccessDialogComponent],
   templateUrl: './time-rule-widget.component.html',
   styleUrls: ['./time-rule-widget.component.scss']
 })
@@ -44,7 +44,7 @@ export class TimeRuleWidgetComponent implements OnInit {
     this.addRuledialog.afterClosed().subscribe((result: any) => {
       if (result) {
         this.fetchTimeRules();
-        this.dialog.open(NewTimeRuleSuccessDialogComponent);
+        this.dialog.open(SuccessDialogComponent, {data: { successMessage: 'Your time rule has been added successfully!'}});
       }
     });
   }
