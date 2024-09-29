@@ -3,15 +3,16 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { SuccessDialogComponent } from '../../dialogs/success-dialog/success-dialog.component';
+import { MessageDialogComponent } from '../../dialogs/message-dialog/message-dialog.component';
 import { Day } from '../../../models/day.model';
 import { NewDayDialogComponent } from '../../dialogs/new-day-dialog/new-day-dialogcomponent';
 import { CalculationResponse } from '../../../models/calculation-response.model';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'calculate-widget',
   standalone: true,
-  imports: [HttpClientModule, FormsModule, NgFor, MatIconModule, NewDayDialogComponent, SuccessDialogComponent],
+  imports: [HttpClientModule, FormsModule, NgFor, MatIconModule, NewDayDialogComponent, MessageDialogComponent],
   templateUrl: './calculate-widget.component.html',
   styleUrls: ['./calculate-widget.component.scss']
 })
@@ -19,6 +20,9 @@ export class CalculateWidgetComponent implements OnInit {
 
   addRuledialog: any;
   calculationDone = false;
+
+  calcError = false;
+  calcErrorMessage =  "";
 
   regularHours = 0;
   regularPrice = 0
@@ -33,7 +37,7 @@ export class CalculateWidgetComponent implements OnInit {
   @Input() pricingData: any;
   @Input() daysData: Day[] = [];
 
-  constructor( private http: HttpClient) { }
+  constructor( private http: HttpClient,  private dialog: MatDialog) { }
 
 
   ngOnInit(): void {
@@ -46,8 +50,16 @@ export class CalculateWidgetComponent implements OnInit {
     {
       return true;
     }
+    else if (this.daysData.length < 1)
+    {
+      this.calcError = true;
+      this.calcErrorMessage = "No days have been entered, please enter days to calculate."
+      return false
+    }
     else
     {
+      this.calcError = true;
+      this.calcErrorMessage = "Price rules are invalid, please check them and try again."
       return false
     }
     
@@ -56,6 +68,7 @@ export class CalculateWidgetComponent implements OnInit {
   calculate(): void {
     if(this.validateFields())
     {
+      this.calcError = false;
       if(this.timeRuleData.id == 1)
       {
         const calculationStandard: any = 
@@ -79,7 +92,8 @@ export class CalculateWidgetComponent implements OnInit {
             this.totalWage = response.grandTotal;
           },
           error => {
-            console.error('Error creating time rule:', error);
+            console.error('Error caling calculate API:', error);
+            this.dialog.open(MessageDialogComponent, {data: { message: "There was an error while calculating, please try again later.", title:"Error"}});
             this.calculationDone = false;
           }
         );  
@@ -108,12 +122,12 @@ export class CalculateWidgetComponent implements OnInit {
             this.totalWage = response.grandTotal;
           },
           error => {
-            console.error('Error creating time rule:', error);
+            console.error('Error caling calculate API:', error);
+            this.dialog.open(MessageDialogComponent, {data: { message: "There was an error while calculating, please try again later.", title:"Error"}});
             this.calculationDone = false;
           }
         );  
       }
-      
-    }    
+    }
   }
 }

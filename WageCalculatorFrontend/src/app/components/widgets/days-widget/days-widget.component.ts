@@ -4,21 +4,21 @@ import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
-import { SuccessDialogComponent } from '../../dialogs/success-dialog/success-dialog.component';
+import { MessageDialogComponent } from '../../dialogs/message-dialog/message-dialog.component';
 import { Day } from '../../../models/day.model';
 import { NewDayDialogComponent } from '../../dialogs/new-day-dialog/new-day-dialogcomponent';
 
 @Component({
   selector: 'days-widget',
   standalone: true,
-  imports: [HttpClientModule, FormsModule, NgFor, MatIconModule, NewDayDialogComponent, SuccessDialogComponent],
+  imports: [HttpClientModule, FormsModule, NgFor, MatIconModule, NewDayDialogComponent, MessageDialogComponent],
   templateUrl: './days-widget.component.html',
   styleUrls: ['./days-widget.component.scss']
 })
 export class DaysWidgetComponent implements OnInit {
   days: Day[] = [];
 
-  addRuledialog: any;
+  addRuleDialog: any;
 
   @Output() daysChanged = new EventEmitter<Day[]>();
   constructor(private dialog: MatDialog) { }
@@ -30,13 +30,13 @@ export class DaysWidgetComponent implements OnInit {
 
 
   openDialog(): void {
-    this.addRuledialog = this.dialog.open(NewDayDialogComponent, {
+    this.addRuleDialog = this.dialog.open(NewDayDialogComponent, {
       width: '400px',
     });
-    this.addRuledialog.afterClosed().subscribe((result: any) => {
+    this.addRuleDialog.afterClosed().subscribe((result: any) => {
       if (result) {
         this.days.push(result);
-        this.dialog.open(SuccessDialogComponent, {data: { successMessage: "Day added successfully!"}});
+        this.dialog.open(MessageDialogComponent, {data: { message: "Day added successfully!", title:"Success!"}});
         this.daysChanged.emit(this.days);
       }
     });
