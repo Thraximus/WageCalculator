@@ -30,6 +30,7 @@ export class NewTimeRuleDialogComponent {
 
   constructor(public dialogRef: MatDialogRef<NewTimeRuleDialogComponent>,private http: HttpClient) {}
 
+  // Making sure that all of the start times are in appropreate ranges, and that the name is filled
   validateTimes(): boolean {
     this.timeValidationError = '';
 

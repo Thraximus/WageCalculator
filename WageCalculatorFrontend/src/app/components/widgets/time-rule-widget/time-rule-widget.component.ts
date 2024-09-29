@@ -33,6 +33,7 @@ export class TimeRuleWidgetComponent implements OnInit {
     this.fetchTimeRules();
   }
 
+  // On select forwards the selected rule to the home component
   selectTimeRule(rule: TimeRule) {
     this.selectedTimeRule = rule;
     this.isDropdownOpen = false;
